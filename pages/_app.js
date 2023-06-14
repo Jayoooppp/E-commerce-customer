@@ -1,6 +1,5 @@
 import { createGlobalStyle } from "styled-components"
 import { CartContextProvider } from "@/components/CartContext";
-import { Poppins } from 'next/font/google'
 const GlobalStyles = createGlobalStyle`
   body{
     background-color: #eee;
