@@ -4,7 +4,9 @@ import Center from "@/components/Center";
 import { useContext, useState } from "react";
 import { CartContext } from "@/components/CartContext";
 import BarsIcon from "@/components/icons/Bars";
+import Button from "./Button";
 
+import { useSession } from "next-auth/react";
 const StyledHeader = styled.header`
   background-color: #222;
 `;
@@ -48,6 +50,8 @@ const NavLink = styled(Link)`
     padding:0;
   }
 `;
+
+
 const NavButton = styled.button`
   background-color: transparent;
   width: 30px;
@@ -65,6 +69,7 @@ const NavButton = styled.button`
 export default function Header() {
   const { cartProducts } = useContext(CartContext);
   const [mobileNavActive, setMobileNavActive] = useState(false);
+  const { data: session, status } = useSession();
   return (
     <StyledHeader>
       <Center>
@@ -76,6 +81,14 @@ export default function Header() {
             <NavLink href={'/categories'}>Categories</NavLink>
             <NavLink href={'/account'}>Account</NavLink>
             <NavLink href={'/cart'}>Cart {cartProducts.length}</NavLink>
+            {/* {session ? (
+              <select>
+                <option value={"hello"}><NavLink href="/">Hello</NavLink></option>
+                <option value={"hello"}><NavLink href="/">Hello</NavLink></option>
+              </select>
+            ) : (
+              <NavLink href="/Auth">LogIn</NavLink>
+            )} */}
           </StyledNav>
           <NavButton onClick={() => setMobileNavActive(prev => !prev)}>
             <BarsIcon />
