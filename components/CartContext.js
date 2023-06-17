@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-
+import { getSession } from "next-auth/react";
 export const CartContext = createContext({});
 
 export function CartContextProvider({ children }) {
@@ -37,4 +37,24 @@ export function CartContextProvider({ children }) {
             {children}
         </CartContext.Provider>
     )
+}
+
+export async function getServerSideProps(context) {
+    const session = await getSession(context);
+
+    if (!session) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: process.env.NEXT_APP_URL + '/Auth'
+
+            }
+        }
+    }
+    return {
+        props: {
+            data: "Authenticated"
+        },
+    };
+
 }

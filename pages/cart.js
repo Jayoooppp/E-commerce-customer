@@ -6,6 +6,7 @@ import { useContext, useDebugValue, useEffect, useState } from "react";
 import { CartContext } from "@/components/CartContext";
 import Input from "@/components/Input";
 import axios from "axios";
+import { getSession } from "next-auth/react";
 
 const ColumnWrapper = styled.div`
   display: grid;
@@ -65,19 +66,19 @@ const CityHolder = styled.div`
   gap: 5px;
 `;
 
-const [isSuccess, setIsSuccess] = useState(false);
-
-useEffect(() => {
-  if (typeof window === 'undefined') {
-    return;
-  }
-  if (window?.location.href.includes('success')) {
-    setIsSuccess(true);
-    clearCart();
-  }
-}, []);
 
 export default function CartPage() {
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+    if (window?.location.href.includes('success')) {
+      setIsSuccess(true);
+      clearCart();
+    }
+  }, []);
   const { cartProducts, addProduct, removeProduct, clearCart } = useContext(CartContext);
 
   const [products, setProducts] = useState([])
@@ -283,3 +284,23 @@ export default function CartPage() {
     </div>
   )
 }
+
+// export async function getServerSideProps(context) {
+//   const session = await getSession(context);
+
+//   if (!session) {
+//     return {
+//       redirect: {
+//         permanent: false,
+//         destination: process.env.NEXT_APP_URL + '/Auth'
+
+//       }
+//     }
+//   }
+//   return {
+//     props: {
+//       data: "Authenticated"
+//     },
+//   };
+
+// }
